@@ -73,7 +73,8 @@
             '</div>' +
             '<div class="question-sub" style="margin-top:16px;">点击喇叭听读音，选出对应中文</div>' +
           '</div>';
-        setTimeout(function() { Speech.speak(targetWord.word); }, 400);
+        // 延迟播放，确保用户已交互过
+        setTimeout(function() { Speech.speak(targetWord.word); }, 600);
       } else if (type === 'cn-to-en') {
         questionHTML =
           '<div class="quiz-question">' +

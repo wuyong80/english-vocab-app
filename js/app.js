@@ -7,23 +7,6 @@
         console.warn('当前浏览器不支持语音合成');
       }
 
-      // 移动端音频解锁：首次点击页面任意位置时初始化语音
-      function unlockSpeechOnMobile() {
-        if (window.speechSynthesis) {
-          // 创建一个空的 utterance 来解锁音频上下文
-          var unlockUtterance = new SpeechSynthesisUtterance('');
-          unlockUtterance.volume = 0;
-          window.speechSynthesis.speak(unlockUtterance);
-          window.speechSynthesis.cancel();
-          // 初始化语音选择
-          if (window.Speech && Speech.init) {
-            Speech.init();
-          }
-        }
-      }
-      document.addEventListener('touchstart', unlockSpeechOnMobile, { once: true });
-      document.addEventListener('click', unlockSpeechOnMobile, { once: true });
-
       // 初始化数据（首次使用）
       var data = Storage.load();
       if (!data.user.createdAt) {

@@ -31,7 +31,11 @@
       inputLetters = [];
       letterIndex = 0;
       hasError = false;
-      Speech.speak(currentWord.word);
+
+      // 延迟发音，确保用户已交互
+      setTimeout(function() {
+        Speech.speak(currentWord.word);
+      }, 600);
 
       var container = document.getElementById('page-spell');
       var letterSlots = '';
