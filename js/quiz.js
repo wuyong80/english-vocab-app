@@ -73,8 +73,9 @@
             '</div>' +
             '<div class="question-sub" style="margin-top:16px;">点击喇叭听读音，选出对应中文</div>' +
           '</div>';
-        // 延迟播放，确保用户已交互过
-        setTimeout(function() { Speech.speak(targetWord.word); }, 600);
+        // 延迟播放，华为浏览器需要更长延迟
+        var isHuawei = /HuaweiBrowser|HBPC/i.test(navigator.userAgent);
+        setTimeout(function() { Speech.speak(targetWord.word); }, isHuawei ? 800 : 600);
       } else if (type === 'cn-to-en') {
         questionHTML =
           '<div class="quiz-question">' +

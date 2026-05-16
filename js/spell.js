@@ -32,10 +32,11 @@
       letterIndex = 0;
       hasError = false;
 
-      // 延迟发音，确保用户已交互
+      // 延迟发音，华为浏览器需要更长延迟
+      var isHuawei = /HuaweiBrowser|HBPC/i.test(navigator.userAgent);
       setTimeout(function() {
         Speech.speak(currentWord.word);
-      }, 600);
+      }, isHuawei ? 800 : 600);
 
       var container = document.getElementById('page-spell');
       var letterSlots = '';

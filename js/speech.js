@@ -5,45 +5,51 @@
   var rate = 0.8;
   var isSpeaking = false;
   var voiceReady = false;
-  var audioCtx = null;
   var userInteracted = false;
-
-  // 创建音频上下文（用于解锁移动设备音频）
-  function unlockAudio() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-  }
+  var initAttempts = 0;
+  var MAX_INIT_ATTEMPTS = 10;
 
   function selectEnglishVoice() {
     if (!synth) return;
     var voices = synth.getVoices();
     if (voices.length === 0) return;
 
-    // 优先选择 Google US English 或类似的高质量语音
+    // 华为浏览器特殊处理：不要指定 voice，让系统用默认语音
+    // 华为浏览器的 voice 对象经常有问题，直接用 lang 更稳定
+    var isHuaweiBrowser = /HuaweiBrowser|HBPC/i.test(navigator.userAgent);
+    if (isHuaweiBrowser) {
+      voice = null;
+      voiceReady = true;
+      return;
+    }
+
+    // 其他浏览器：尝试选择英语语音
     voice = voices.filter(function(v) {
       return v.name.indexOf('Google US English') !== -1 || v.name.indexOf('Samantha') !== -1;
     })[0]
       || voices.filter(function(v) { return v.lang.indexOf('en-US') === 0; })[0]
       || voices.filter(function(v) { return v.lang.indexOf('en-GB') === 0; })[0]
       || voices.filter(function(v) { return v.lang.indexOf('en') === 0; })[0]
-      || voices[0];
+      || null;
+
+    voiceReady = true;
   }
 
   function initVoice() {
     if (!synth) return;
+    initAttempts++;
+
     var voices = synth.getVoices();
     if (voices.length > 0) {
       selectEnglishVoice();
-      voiceReady = true;
+    } else if (initAttempts < MAX_INIT_ATTEMPTS) {
+      // voices 还没加载好，稍后重试
+      setTimeout(initVoice, 200);
     }
   }
 
   // 处理 voiceschanged 事件
-  if (synth && synth.onvoiceschanged !== undefined) {
+  if (synth && typeof synth.onvoiceschanged !== 'undefined') {
     synth.onvoiceschanged = function() {
       initVoice();
     };
@@ -58,11 +64,8 @@
         return;
       }
 
-      // 解锁移动设备音频
-      unlockAudio();
-
-      // 确保语音已加载（移动端 voices 可能延迟加载）
-      if (!voiceReady || !voice) {
+      // 确保语音已加载
+      if (!voiceReady) {
         initVoice();
       }
 
@@ -73,10 +76,12 @@
 
       var utterance = new SpeechSynthesisUtterance(text);
 
-      // 设置语音 - 如果 voice 对象可用则使用，否则依赖 lang 属性
-      if (voice) {
+      // 华为浏览器：不设置 voice，只设置 lang
+      // 其他浏览器：如果 voice 可用则设置
+      if (voice && !/HuaweiBrowser|HBPC/i.test(navigator.userAgent)) {
         utterance.voice = voice;
       }
+
       utterance.rate = rate;
       utterance.pitch = 1.0;
       utterance.volume = 1;
@@ -87,33 +92,21 @@
       utterance.onerror = function(e) {
         isSpeaking = false;
         console.warn('语音播放错误:', e.error);
-        // 出错时尝试不指定 voice，用默认语音重试
-        if (e.error !== 'canceled' && e.error !== 'interrupted') {
-          setTimeout(function() {
-            try {
-              var retry = new SpeechSynthesisUtterance(text);
-              retry.lang = 'en-US';
-              retry.rate = rate;
-              retry.volume = 1;
-              synth.speak(retry);
-            } catch(err) {}
-          }, 100);
-        }
       };
 
-      // 移动端需要延迟播放，确保上下文已激活
+      // 华为浏览器需要更长的延迟
+      var delay = /HuaweiBrowser|HBPC/i.test(navigator.userAgent) ? 300 : 100;
       setTimeout(function() {
         try {
           synth.speak(utterance);
         } catch(e) {
           console.warn('speak() 调用失败:', e);
         }
-      }, 100);
+      }, delay);
     },
 
     speakChinese: function(text) {
       if (!synth) return;
-      unlockAudio();
       try {
         synth.cancel();
       } catch(e) {}
@@ -121,11 +114,12 @@
       utterance.lang = 'zh-CN';
       utterance.rate = 1.0;
       utterance.volume = 1;
+      var delay = /HuaweiBrowser|HBPC/i.test(navigator.userAgent) ? 300 : 100;
       setTimeout(function() {
         try {
           synth.speak(utterance);
         } catch(e) {}
-      }, 100);
+      }, delay);
     },
 
     setSpeed: function(r) {
@@ -147,11 +141,13 @@
 
     // 检查是否支持语音
     checkSupport: function() {
+      var voices = synth ? synth.getVoices() : [];
       return {
         supported: !!synth,
         voicesLoaded: voiceReady,
-        voiceCount: synth ? synth.getVoices().length : 0,
-        userInteracted: userInteracted
+        voiceCount: voices.length,
+        userInteracted: userInteracted,
+        isHuawei: /HuaweiBrowser|HBPC/i.test(navigator.userAgent)
       };
     }
   };
@@ -159,15 +155,21 @@
   // 监听用户首次交互，解锁音频（关键！）
   function onFirstInteraction(e) {
     userInteracted = true;
-    unlockAudio();
+
+    // 用一个小技巧激活华为浏览器的音频权限
+    // 播放一个极短的无声音频来解锁
+    try {
+      var silentAudio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAAAAAA==');
+      silentAudio.play().catch(function(){});
+    } catch(err) {}
 
     // 尝试用空语音解锁 speechSynthesis
     if (synth) {
       try {
-        var unlock = new SpeechSynthesisUtterance('');
-        unlock.volume = 0;
+        var unlock = new SpeechSynthesisUtterance(' ');
+        unlock.volume = 0.01;
+        unlock.rate = 2;
         synth.speak(unlock);
-        synth.cancel();
       } catch(err) {}
     }
 

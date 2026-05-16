@@ -95,8 +95,9 @@
           '<button class="btn btn-success" onclick="LearnModule.markKnown()">✓ 认识</button>' +
         '</div>';
 
-      // 自动发音（延迟确保移动设备音频上下文已解锁）
-      setTimeout(function() { Speech.speak(word.word); }, 600);
+      // 自动发音（华为浏览器需要更长延迟）
+      var isHuawei = /HuaweiBrowser|HBPC/i.test(navigator.userAgent);
+      setTimeout(function() { Speech.speak(word.word); }, isHuawei ? 800 : 600);
     },
 
     flipCard: function() {
