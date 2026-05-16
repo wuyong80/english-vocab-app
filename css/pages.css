@@ -44,6 +44,7 @@
   cursor: pointer;
   transition: all var(--transition-fast);
   min-height: 80px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .quick-action-btn:active {
@@ -59,6 +60,21 @@
   font-size: var(--font-size-sm);
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
+}
+
+@media (max-width: 480px) {
+  .quick-action-btn {
+    min-height: 100px;
+    padding: var(--space-lg);
+  }
+
+  .quick-action-btn .action-icon {
+    font-size: 36px;
+  }
+
+  .quick-action-btn .action-label {
+    font-size: var(--font-size-md);
+  }
 }
 
 /* ===== 学习页 ===== */
@@ -224,8 +240,8 @@
 }
 
 .key-btn {
-  min-width: 30px;
-  height: 40px;
+  min-width: 32px;
+  height: 44px;
   border-radius: 6px;
   background: var(--color-card);
   font-size: var(--font-size-md);
@@ -238,7 +254,8 @@
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
   flex: 1;
-  max-width: 42px;
+  max-width: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .key-btn:active {
@@ -250,6 +267,26 @@
 .key-btn.key-wide {
   max-width: 80px;
   font-size: var(--font-size-xs);
+}
+
+@media (max-width: 480px) {
+  .key-btn {
+    min-width: 36px;
+    height: 50px;
+    max-width: 50px;
+    font-size: var(--font-size-lg);
+  }
+
+  .key-btn.key-wide {
+    max-width: 90px;
+    font-size: var(--font-size-sm);
+  }
+
+  .letter-slot {
+    width: 44px;
+    height: 54px;
+    font-size: var(--font-size-xl);
+  }
 }
 
 /* ===== 错词本 ===== */
@@ -339,6 +376,18 @@
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+}
+
+@media (max-width: 480px) {
+  .calendar-days .day {
+    font-size: var(--font-size-md);
+  }
+
+  .calendar-header button {
+    width: 44px;
+    height: 44px;
+    font-size: var(--font-size-lg);
+  }
 }
 
 .calendar-days .day.empty {
@@ -435,7 +484,7 @@
 }
 
 .grade-btn {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: var(--radius-full);
   background: var(--color-card);
   border: 2px solid var(--color-border);
@@ -443,6 +492,14 @@
   color: var(--color-text);
   cursor: pointer;
   transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 480px) {
+  .grade-btn {
+    padding: 14px 28px;
+    font-size: var(--font-size-md);
+  }
 }
 
 .grade-btn.active {

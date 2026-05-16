@@ -95,8 +95,8 @@
           '<button class="btn btn-success" onclick="LearnModule.markKnown()">✓ 认识</button>' +
         '</div>';
 
-      // 自动发音
-      setTimeout(function() { Speech.speak(word.word); }, 300);
+      // 自动发音（延迟确保移动设备音频上下文已解锁）
+      setTimeout(function() { Speech.speak(word.word); }, 500);
     },
 
     flipCard: function() {
