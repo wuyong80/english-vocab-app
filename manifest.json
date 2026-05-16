@@ -1,0 +1,25 @@
+{
+  "name": "单词小工具 - 小学生英语单词记忆",
+  "short_name": "单词小工具",
+  "description": "湘教版小学英语单词记忆工具，涵盖3-6年级词库",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7FAFC",
+  "theme_color": "#4A90D9",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "kids"],
+  "lang": "zh-CN"
+}

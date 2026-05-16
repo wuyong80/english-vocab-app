@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4A90D9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="单词小工具">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icons/favicon.ico">
+  <title>单词小工具 - 小学生英语单词记忆</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 首页 -->
+    <div class="page active" id="page-home"></div>
+
+    <!-- 学习页 -->
+    <div class="page" id="page-learn"></div>
+
+    <!-- 测验页 -->
+    <div class="page" id="page-quiz"></div>
+
+    <!-- 拼写页 -->
+    <div class="page" id="page-spell"></div>
+
+    <!-- 错词本 -->
+    <div class="page" id="page-review"></div>
+
+    <!-- 统计页 -->
+    <div class="page" id="page-stats"></div>
+
+    <!-- 设置页 -->
+    <div class="page" id="page-settings"></div>
+
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+      <div class="tab-item active" data-route="home" onclick="Router.navigate('home')">
+        <span class="tab-icon">🏠</span>
+        <span class="tab-label">首页</span>
+      </div>
+      <div class="tab-item" data-route="learn" onclick="Router.navigate('learn')">
+        <span class="tab-icon">📖</span>
+        <span class="tab-label">学习</span>
+      </div>
+      <div class="tab-item" data-route="review" onclick="Router.navigate('review')">
+        <span class="tab-icon">📋</span>
+        <span class="tab-label">错词本</span>
+      </div>
+      <div class="tab-item" data-route="stats" onclick="Router.navigate('stats')">
+        <span class="tab-icon">📊</span>
+        <span class="tab-label">统计</span>
+      </div>
+    </nav>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <!-- JS -->
+  <script src="js/storage.js"></script>
+  <script src="js/speech.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/learn.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/spell.js"></script>
+  <script src="js/review.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

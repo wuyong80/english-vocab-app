@@ -1,0 +1,103 @@
+/* layout.css - 布局系统 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 页面容器 */
+.page {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-md);
+  padding-bottom: 80px; /* 为底部导航留空间 */
+  overflow-y: auto;
+}
+
+.page.active {
+  display: flex;
+}
+
+/* 底部导航 */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-card);
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 100;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 0;
+  color: var(--color-text-light);
+  font-size: var(--font-size-xs);
+  transition: color var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.tab-item.active {
+  color: var(--color-primary);
+}
+
+.tab-item .tab-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.tab-item .tab-label {
+  font-size: 11px;
+}
+
+/* Flex 工具 */
+.flex-row { display: flex; flex-direction: row; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+
+/* 文本 */
+.text-center { text-align: center; }
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-success { color: var(--color-success); }
+.text-danger { color: var(--color-danger); }
+.text-warning { color: var(--color-warning); }
+
+/* 横屏适配 */
+@media (orientation: landscape) {
+  .page {
+    padding: var(--space-lg) var(--space-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-size-lg: 20px;
+    --font-size-xl: 28px;
+  }
+}

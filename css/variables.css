@@ -1,0 +1,73 @@
+/* variables.css - Design Tokens */
+:root {
+  /* 主色 - 蓝色系 */
+  --color-primary: #4A90D9;
+  --color-primary-light: #7BB3E0;
+  --color-primary-dark: #2B6CB0;
+  --color-primary-bg: #EBF5FF;
+
+  /* 语义色 */
+  --color-success: #48BB78;
+  --color-success-bg: #F0FFF4;
+  --color-danger: #F56565;
+  --color-danger-bg: #FFF5F5;
+  --color-warning: #ED8936;
+  --color-warning-bg: #FFFAF0;
+  --color-info: #4299E1;
+  --color-info-bg: #EBF8FF;
+
+  /* 中性色 */
+  --color-bg: #F7FAFC;
+  --color-card: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-border-light: #EDF2F7;
+  --color-text: #2D3748;
+  --color-text-secondary: #718096;
+  --color-text-light: #A0AEC0;
+
+  /* 圆角 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 50%;
+
+  /* 间距 */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* 字体 */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 18px;
+  --font-size-lg: 24px;
+  --font-size-xl: 32px;
+  --font-size-xxl: 40px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+  /* 触摸目标 */
+  --touch-target: 48px;
+
+  /* 动画 */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 暗色模式预留 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 暂不实现，留待V2.0 */
+  }
+}
